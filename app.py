@@ -19,16 +19,14 @@ start_time = time.time()
 start_time_str = datetime.datetime.fromtimestamp(start_time).strftime("%H:%M:%S")
 stop_flag = False 
 
-# Ping settings
-interval_duration = 5     # seconds per aggregation interval
-moving_window_intervals = 3  # (not used in this simple example but can be added)
+interval_duration = 3    
+moving_window_intervals = 3 
 
 def ping_loop():
     global stop_flag, aggregated_ping_results, aggregated_time_points, overall_ping_results, start_time
     while not stop_flag:
         interval_start = time.time()
         interval_pings = []
-        # Ping repeatedly for the duration of the interval
         while (time.time() - interval_start) < interval_duration and not stop_flag:
             if is_windows:
                 response = subprocess.run(["ping", "-n", "1", target_domain],
@@ -62,7 +60,7 @@ def ping_loop():
             interval_avg = np.nan
         
         aggregated_ping_results.append(interval_avg)
-        aggregated_time_points.append(time.time() - start_time)
+        aggregated_time_points.append(int(time.time() - start_time))
 
 @app.route("/")
 def index():
@@ -70,7 +68,6 @@ def index():
 
 @app.route("/data")
 def data():
-    # Prepare the latest aggregated data for the front-end.
     if overall_ping_results:
         overall_avg = np.nanmean(overall_ping_results)
         overall_max = np.nanmax(overall_ping_results)
@@ -96,6 +93,5 @@ def stop():
     return jsonify({"status": "stopped"})
 
 if __name__ == "__main__":
-    # Start the ping loop in a background thread
     threading.Thread(target=ping_loop, daemon=True).start()
     app.run(debug=True)

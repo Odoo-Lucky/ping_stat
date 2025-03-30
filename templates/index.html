@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8" />
     <title>Ping Response Times</title>
-    <!-- Include Chart.js from a CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
@@ -13,7 +12,6 @@
     <button onclick="stopPing()">Stop Ping</button>
 
     <script>
-      // Set up Chart.js chart
       var ctx = document.getElementById("pingChart").getContext("2d");
       var chart = new Chart(ctx, {
         type: "line",
@@ -21,7 +19,7 @@
           labels: [],
           datasets: [
             {
-              label: "5-sec Raw Avg",
+              label: "3-sec Raw Avg",
               data: [],
               borderColor: "blue",
               fill: false,
