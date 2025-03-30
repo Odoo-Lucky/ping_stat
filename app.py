@@ -11,7 +11,6 @@ app = Flask(__name__)
 target_domain = "bista-maulik-jbc-supply.odoo.com"
 is_windows = platform.system().lower() == "windows"
 
-# Global variables for storing ping data
 aggregated_ping_results = []      
 aggregated_time_points = []       
 overall_ping_results = []  
