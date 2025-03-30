@@ -25,8 +25,7 @@ start_time_str = datetime.fromtimestamp(start_time).strftime("%H:%M:%S")
 
 fig, ax = plt.subplots(figsize=(12, 6))
 plt.subplots_adjust(bottom=0.30) 
-raw_line, = ax.plot([], [], marker='o', linestyle='-', linewidth=2, markersize=6, label='5-sec Raw Avg')
-avg_line, = ax.plot([], [], color='red', linestyle='-', linewidth=2, label='Moving Avg (3 intervals)')
+avg_line, = ax.plot([], [], color='red', linestyle='-', linewidth=2, label='Moving Avg')
 ax.set_title(f'Ping Response Times to {target_domain}')
 ax.set_xlabel('Elapsed Time (s)')
 ax.set_ylabel('Response Time (ms)')
@@ -41,8 +40,8 @@ button_ax = plt.axes([0.81, 0.05, 0.15, 0.075])
 stop_button = Button(button_ax, 'Stop')
 stop_button.on_clicked(stop)
 
-interval_duration = 5     
-moving_window_intervals = 3  
+interval_duration = 3     
+moving_window_intervals = 1  
 
 while not stop_flag:
     interval_start = time.time()
@@ -84,9 +83,7 @@ while not stop_flag:
         
     aggregated_ping_results.append(interval_avg)
     aggregated_time_points.append(time.time() - start_time)
-    
-    raw_line.set_data(aggregated_time_points, aggregated_ping_results)
-    
+        
     if len(aggregated_ping_results) >= moving_window_intervals:
         moving_avgs = []
         moving_times = []
